@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Video, Wand2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function HomePage() {
+  const navigate = useNavigate();
+
   return (
     <div className="relative isolate">
       <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
@@ -14,7 +17,7 @@ export function HomePage() {
             generate AI content, and export professional-quality videos in minutes.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Button size="lg" className="gap-2">
+            <Button size="lg" className="gap-2" onClick={() => navigate('/editor')}>
               <Video className="h-5 w-5" />
               Create Video
             </Button>
