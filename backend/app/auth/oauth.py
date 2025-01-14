@@ -1,6 +1,5 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2AuthorizationCodeBearer
-from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
 from starlette.requests import Request
 import os
@@ -16,4 +15,5 @@ oauth.register(
     client_id=GOOGLE_CLIENT_ID,
     client_secret=GOOGLE_CLIENT_SECRET,
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-    client_kwargs={'scope': 'openid email profile'}
+        client_kwargs={'scope': 'openid email profile'}
+    )
