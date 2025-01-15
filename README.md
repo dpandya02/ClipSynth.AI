@@ -45,6 +45,7 @@ This project is built using React, with a focus on web-based development and dep
 
 **3. Start the Servers:**
    - **Backend:** 
+   cd into backend/app folder then run:
      ```bash
      uvicorn main:app --reload
      ```
