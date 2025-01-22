@@ -33,6 +33,7 @@ This project is built using React, with a focus on web-based development and dep
 
    ```bash
     source .venv/bin/activate
+    .\shivesh_venv\Scripts\activate
    ```
 
 **2. Install Dependencies:**
@@ -45,13 +46,13 @@ This project is built using React, with a focus on web-based development and dep
 
 **3. Start the Servers:**
    - **Backend:** 
-   cd into backend/app folder then run:
+   cd into backend folder then run:
      ```bash
-     uvicorn main:app --reload
+     uvicorn app.main:app --reload
      ```
    - **Frontend:** Navigate to your project's front-end directory (e.g., `client`) and start the development server for React:
      ```bash
-     npm start
+     npm run dev
      ```
 
 **4. Access the Application:**  
