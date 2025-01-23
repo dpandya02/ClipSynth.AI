@@ -29,28 +29,37 @@ This project is built using React, with a focus on web-based development and dep
 
 **1. Activate Virtual Environment:**
 
-   Before starting, ensure you've activated your virtual environment.
+Before starting, ensure you've created and activated your virtual environment. Use the `python -m venv` command to create the virtual environment in a folder Or use VSCode. To activate run the following command:
 
-   ```bash
-    source .venv/bin/activate
-    .\shivesh_venv\Scripts\activate
-   ```
+- On macOS/Linux:
+  ```bash
+  source .venv/bin/activate
+
+- On Windows:
+  ```bash
+  .venv\Scripts\activate
 
 **2. Install Dependencies:**
 
-   Install the required packages using pip.
+Install Dependencies: Use pip to install dependencies listed in requirements.txt:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
+
+If requirements.txt is empty, add the necessary dependencies and regenerate it with:
+
+```bash
+pip freeze > requirements.txt
+```
 
 **3. Start the Servers:**
    - **Backend:** 
-   cd into backend folder then run:
+   Navigate to your project's back-end directory (e.g., `backend`) and start the development server:
      ```bash
      uvicorn app.main:app --reload
      ```
-   - **Frontend:** Navigate to your project's front-end directory (e.g., `client`) and start the development server for React:
+   - **Frontend:** Navigate to your project's front-end directory (e.g., `frontend`) and start the development server for React:
      ```bash
      npm run dev
      ```
