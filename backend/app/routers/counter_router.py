@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
 from app.database.database import get_db
-from app.services.counter_service import increment_and_return_counter
 from app.schemas.counter_schema import CounterResponse
+from app.services.counter_service import increment_and_return_counter
 
 router = APIRouter()
 

@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from app.database import database
 from app.models import UserModel
-from app.routers import example_router
-from app.routers import counter_router
+from app.routers import counter_router, example_router
 
 # Create the database and tables
 database.Base.metadata.create_all(bind=database.engine)

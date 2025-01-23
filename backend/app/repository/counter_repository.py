@@ -1,5 +1,7 @@
 from sqlalchemy.orm import Session
+
 from app.models.counter_model import Counter
+
 
 def get_counter(db: Session):
     return db.query(Counter).first()

@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer
+
 from app.database.database import Base
+
 
 class Counter(Base):
     __tablename__ = "counter"
