@@ -1,27 +1,35 @@
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.database import database, models
-from app.auth import oauth
-from app.routers import auth, users
+from app.database import database
+from app.models import UserModel
+from app.routers import example_router
+from app.routers import counter_router
 
+# Create the database and tables
+database.Base.metadata.create_all(bind=database.engine)
+
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "*"
+]
+
+# Create a FastAPI app
 app = FastAPI()
 
-# CORS middleware configuration
+# Add the CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Frontend URL
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Create database tables
-models.Base.metadata.create_all(bind=database.engine)
-
-# Include routers
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
-app.include_router(users.router, prefix="/users", tags=["users"])
+# include your routers here
+app.include_router(example_router.router)
+app.include_router(counter_router.router)
 
 @app.get("/")
 def read_root():
     return {"message": "Welcome to ClipSynth.AI API"}
+
