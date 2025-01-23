@@ -1,8 +1,10 @@
+import os
+
+from authlib.integrations.starlette_client import OAuth
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2AuthorizationCodeBearer
 from starlette.config import Config
 from starlette.requests import Request
-import os
 
 config = Config('.env')
 oauth = OAuth(config)
