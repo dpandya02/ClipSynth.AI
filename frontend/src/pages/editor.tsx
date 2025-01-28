@@ -1,4 +1,3 @@
-import React from 'react';
 import { Timeline } from '@/components/editor/timeline';
 import { Preview } from '@/components/editor/preview';
 import { Toolbar } from '@/components/editor/toolbar';

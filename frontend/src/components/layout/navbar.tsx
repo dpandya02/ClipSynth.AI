@@ -1,8 +1,15 @@
 import { Button } from '@/components/ui/button';
-import { Video, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Video } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 export function Navbar() {
+  const { isAuthenticated, user, logout } = useAuth();
+  
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:8000/api/auth/google/login';
+  };
+
   return (
     <nav className="border-b bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -13,11 +20,35 @@ export function Navbar() {
               <span className="text-xl font-bold">ClipSynth.AI</span>
             </Link>
           </div>
+          
           <div className="flex items-center space-x-4">
-            <Button variant="outline" size="sm">
-              Sign In
-            </Button>
-            <Button size="sm">Get Started</Button>
+            {isAuthenticated ? (
+              <>
+                <span className="text-sm text-gray-700">
+                  Welcome, {user.name}
+                </span>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={logout}
+                >
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Button 
+                size="sm"
+                onClick={handleGoogleLogin}
+                className="gap-2"
+              >
+                <img
+                  src="https://www.google.com/favicon.ico"
+                  alt="Google"
+                  className="w-4 h-4"
+                />
+                Sign in with Google
+              </Button>
+            )}
           </div>
         </div>
       </div>

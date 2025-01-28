@@ -1,9 +1,20 @@
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/contexts/AuthContext';
 import { Video, Wand2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export function HomePage() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+
+  const handleCreateVideo = () => {
+    if (isAuthenticated) {
+      navigate('/editor');
+    } else {
+      // Redirect to Google login if not authenticated
+      window.location.href = 'http://localhost:8000/api/auth/google/login';
+    }
+  };
 
   return (
     <div className="relative isolate">
@@ -17,7 +28,11 @@ export function HomePage() {
             generate AI content, and export professional-quality videos in minutes.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Button size="lg" className="gap-2" onClick={() => navigate('/editor')}>
+            <Button
+              size="lg"
+              className="gap-2"
+              onClick={handleCreateVideo}
+            >
               <Video className="h-5 w-5" />
               Create Video
             </Button>
