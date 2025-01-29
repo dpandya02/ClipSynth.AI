@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 interface AuthContextType {
   user: any | null;
   isAuthenticated: boolean;
-  login: (token: string) => void;
+  login: (idToken: string) => void;
   logout: () => void;
 }
 
@@ -29,19 +29,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           'Authorization': `Bearer ${token}`
         }
       });
+
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
         setIsAuthenticated(true);
+      } else {
+        logout(); // If token is invalid, log the user out
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
+      logout();
     }
   };
 
-  const login = (token: string) => {
-    localStorage.setItem('token', token);
-    fetchUserProfile(token);
+  const login = async (idToken: string) => {
+    try {
+      // Send the Google ID token to the backend for verification
+      const response = await fetch('http://localhost:8000/api/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ idToken })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem('token', data.accessToken); // Store JWT or session token from backend
+        fetchUserProfile(data.accessToken);
+      } else {
+        console.error('Google login failed');
+      }
+    } catch (error) {
+      console.error('Error logging in with Google:', error);
+    }
   };
 
   const logout = () => {

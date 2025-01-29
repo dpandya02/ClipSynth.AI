@@ -1,14 +1,41 @@
-import { Button } from '@/components/ui/button';
-import { Video } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Video } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+
+
+const GOOGLE_CLIENT_ID = "444479912471-tkd613ec2gft8ghjj66l0q5qaapkg3u5.apps.googleusercontent.com" //import.meta.env.VITE_GOOGLE_CLIENT_ID; // Access env variable
+
+console.log("All ENV Variables:", import.meta.env);
+
+declare global {
+  interface Window {
+    google: any; // This tells TypeScript that `google` exists
+  }
+}
 
 export function Navbar() {
-  const { isAuthenticated, user, logout } = useAuth();
-  
-  const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:8000/api/auth/google/login';
-  };
+  const { isAuthenticated, user, login, logout } = useAuth();
+
+  useEffect(() => {
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID, // Use the environment variable
+        callback: handleCredentialResponse,
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById("google-signin-btn"),
+        { theme: "outline", size: "large" }
+      );
+    }
+  }, []);
+
+  function handleCredentialResponse(response: google.accounts.id.CredentialResponse) {
+    console.log("Google ID Token:", response.credential);
+    login(response.credential);
+  }
 
   return (
     <nav className="border-b bg-white">
@@ -20,34 +47,19 @@ export function Navbar() {
               <span className="text-xl font-bold">ClipSynth.AI</span>
             </Link>
           </div>
-          
+
           <div className="flex items-center space-x-4">
             {isAuthenticated ? (
               <>
                 <span className="text-sm text-gray-700">
-                  Welcome, {user.name}
+                  Welcome, {user?.name}
                 </span>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={logout}
-                >
+                <Button variant="outline" size="sm" onClick={logout}>
                   Sign Out
                 </Button>
               </>
             ) : (
-              <Button 
-                size="sm"
-                onClick={handleGoogleLogin}
-                className="gap-2"
-              >
-                <img
-                  src="https://www.google.com/favicon.ico"
-                  alt="Google"
-                  className="w-4 h-4"
-                />
-                Sign in with Google
-              </Button>
+              <div id="google-signin-btn"></div> // GIS Button
             )}
           </div>
         </div>
